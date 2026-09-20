@@ -1,0 +1,15 @@
+# build outputs & executables
+*.o
+*.a
+*.out
+*.gch
+.vscode/
+
+# ignore compiled binary execs
+cub3D
+fractol
+minishell
+client
+server
+philo
+ircserv

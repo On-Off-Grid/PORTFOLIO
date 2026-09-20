@@ -1,0 +1,18 @@
+[submodule "CPPS"]
+	path = CPPS
+	url = git@github.com:On-Off-Grid/CPPS.git
+[submodule "inception"]
+	path = inception
+	url = git@github.com:On-Off-Grid/inception.git
+[submodule "minilibx-linux"]
+	path = minilibx-linux
+	url = git@github.com:42Paris/minilibx-linux.git
+[submodule "my_irc"]
+	path = my_irc
+	url = git@github.com:abareich/ft_irc.git
+[submodule "Patterns-in-code-and-culture"]
+	path = Patterns-in-code-and-culture
+	url = git@github.com:On-Off-Grid/Patterns-in-code-and-culture.git
+[submodule "philosophers"]
+	path = philosophers
+	url = git@github.com:On-Off-Grid/Philo_lakhar.git

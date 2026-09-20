@@ -1,0 +1,16 @@
+# Executables
+server
+client
+
+# Object files
+*.o
+libft/*.o
+libft/ft_printf/*.o
+
+# Compiled static libraries
+*.a
+libft/*.a
+libft/ft_printf/*.a
+
+# VS Code directory (optional local settings)
+.vscode/
