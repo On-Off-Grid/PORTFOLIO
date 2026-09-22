@@ -15,4 +15,4 @@
 	url = git@github.com:On-Off-Grid/Patterns-in-code-and-culture.git
 [submodule "philosophers"]
 	path = philosophers
-	url = git@github.com:On-Off-Grid/Philo_lakhar.git
+	url = git@github.com:On-Off-Grid/Dining_Philosophers.git
