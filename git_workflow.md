@@ -6,24 +6,31 @@ This document is your complete guide to managing the **PORTFOLIO** workspace. It
 
 ## 1. Repository Architecture Overview
 
-Your `PORTFOLIO` workspace operates as an **Umbrella Container Repository** tracking both standalone project folders and independent Git Submodules.
+Your `PORTFOLIO` workspace operates as an **Umbrella Container Repository** tracking both standalone project folders and independent Git Submodules, separated by build style.
 
 ```
 PORTFOLIO/ (Main Git Repository -> git@github.com:On-Off-Grid/PORTFOLIO.git)
 ├── 📄 README.md, git_workflow.md, ROADMAP_2026.md, .gitignore, .gitmodules
-├── 📂 Core Project Folders (Directly tracked in PORTFOLIO)
-│   ├── cub3d/
-│   ├── fractol/
-│   ├── minishell/
-│   ├── minitalk/
-│   └── readmes/
-└── 📦 Git Submodules (Independent Git Repositories tracked via commit pointers)
-    ├── CPPS/                          -> git@github.com:On-Off-Grid/CPPS.git
-    ├── inception/                     -> git@github.com:On-Off-Grid/inception.git
-    ├── minilibx-linux/                -> git@github.com:42Paris/minilibx-linux.git
-    ├── my_irc/                        -> git@github.com:abareich/ft_irc.git
-    ├── Patterns-in-code-and-culture/  -> git@github.com:On-Off-Grid/Patterns-in-code-and-culture.git
-    └── philosophers/                  -> git@github.com:On-Off-Grid/Dining_Philosophers.git
+├── 📂 site/                                (portfolio website, tracked here)
+├── 📂 From_scratch/                        (hand-written 42 projects)
+│   ├── 📂 Core Project Folders (Directly tracked in PORTFOLIO)
+│   │   ├── cub3d/
+│   │   ├── fractol/
+│   │   ├── minishell/
+│   │   ├── minitalk/
+│   │   └── readmes/
+│   └── 📦 Git Submodules (Independent Git Repositories tracked via commit pointers)
+│       ├── CPPS/                          -> git@github.com:On-Off-Grid/CPPS.git
+│       ├── inception/                     -> git@github.com:On-Off-Grid/inception.git
+│       ├── minilibx-linux/                -> git@github.com:42Paris/minilibx-linux.git
+│       ├── my_irc/                        -> git@github.com:abareich/ft_irc.git
+│       ├── Patterns-in-code-and-culture/  -> git@github.com:On-Off-Grid/Patterns-in-code-and-culture.git
+│       └── philosophers/                  -> git@github.com:On-Off-Grid/Dining_Philosophers.git
+└── 🤖 Vibe_coded/                          (AI-assisted projects — each a STANDALONE repo,
+    │                                       git-ignored by the umbrella; no submodule pointers)
+    ├── IgranSense_MVP/                    -> git@github.com:On-Off-Grid/IgranSense_MVP.git
+    ├── harness/                           -> git@github.com:On-Off-Grid/harness.git
+    └── Ult_harness/                       -> git@github.com:On-Off-Grid/Ult_harness.git
 ```
 
 ---
@@ -52,7 +59,7 @@ If you modify code inside `CPPS`:
 #### Step 1: Commit & Push inside the Submodule
 ```bash
 # 1. Move into the submodule directory
-cd /home/souhail/Desktop/Desktop/PORTFOLIO/CPPS
+cd /home/souhail/Desktop/Desktop/PORTFOLIO/From_scratch/CPPS
 
 # 2. Ensure you are on a branch (e.g. main), NOT in a detached HEAD
 git checkout main
@@ -72,7 +79,7 @@ cd /home/souhail/Desktop/Desktop/PORTFOLIO
 git status
 
 # 3. Stage the new commit pointer of the submodule
-git add CPPS
+git add From_scratch/CPPS
 
 # 4. Commit and push the umbrella update to GitHub
 git commit -m "chore: update CPPS submodule reference to latest commit"
@@ -89,7 +96,7 @@ git push origin main
 **Solution**:
 Before making edits inside any submodule, make sure you switch to `main`:
 ```bash
-cd CPPS
+cd From_scratch/CPPS
 git checkout main
 ```
 

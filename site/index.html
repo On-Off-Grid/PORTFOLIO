@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Souhail Ouichou — Software Engineering Student</title>
+  <meta name="description" content="Portfolio of Souhail Ouichou, a software engineering student at 1337 Coding School. C/C++ systems work: a POSIX shell, concurrent simulations, an IRC server, raycasting engines and a Dockerized web stack.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Souhail Ouichou — Software Engineering">
+  <meta property="og:description" content="Software engineering, problem solving and building useful things.">
+  <meta property="og:image" content="https://media.licdn.com/dms/image/v2/D4E03AQF3LZdBgncVXw/profile-displayphoto-crop_800_800/B4EZ55xFwDGwAI-/0/1780159373576?e=1793232000&v=beta&t=HReaJWiPS9II_ECBcX4tzELxAVUlC7t8yv-WdLaDuYo">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#080808">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23080808'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23C8FF32'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Souhail Ouichou",
+    "jobTitle": "Software Engineering Student",
+    "knowsAbout": ["C", "C++", "Systems Programming", "Concurrency", "Networking", "Computer Graphics", "Docker", "DevOps"],
+    "image": "https://media.licdn.com/dms/image/v2/D4E03AQF3LZdBgncVXw/profile-displayphoto-crop_800_800/B4EZ55xFwDGwAI-/0/1780159373576?e=1793232000&v=beta&t=HReaJWiPS9II_ECBcX4tzELxAVUlC7t8yv-WdLaDuYo",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Salé",
+      "addressRegion": "Rabat-Salé-Kénitra",
+      "addressCountry": "MA"
+    },
+    "alumniOf": [
+      { "@type": "EducationalOrganization", "name": "1337 Coding School" },
+      { "@type": "EducationalOrganization", "name": "ALX Academy" }
+    ],
+    "sameAs": ["https://www.linkedin.com/in/souhail-ouichou/"]
+  }
+  </script>
+</head>
+
+<body id="top">
+
+  <div class="progress" aria-hidden="true"><span class="progress__bar" id="progressBar"></span></div>
+
+  <div class="cursor" id="cursor" aria-hidden="true"><span class="cursor__label">VIEW</span></div>
+
+  <!-- NAVIGATION -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__logo" href="#top" aria-label="Souhail Ouichou — home">SOUHAIL<span>.</span></a>
+
+      <p class="nav__status"><span class="nav__pulse" aria-hidden="true"></span>Available for opportunities</p>
+
+      <nav class="nav__links" aria-label="Primary">
+        <a href="#projects"><span>01</span>Projects</a>
+        <a href="#about"><span>02</span>About</a>
+        <a href="#journey"><span>03</span>Journey</a>
+        <a href="#work"><span>04</span>Experience</a>
+        <a href="#contact"><span>05</span>Contact</a>
+      </nav>
+
+      <button class="nav__toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MOBILE MENU -->
+  <div class="menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="menu__top">
+      <span class="nav__logo">SOUHAIL<span>.</span></span>
+      <button class="menu__close" id="menuClose" type="button" aria-label="Close menu">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <nav class="menu__links" aria-label="Mobile">
+      <a href="#projects"><span>01</span>Projects</a>
+      <a href="#about"><span>02</span>About</a>
+      <a href="#journey"><span>03</span>Journey</a>
+      <a href="#work"><span>04</span>Experience</a>
+      <a href="#contact"><span>05</span>Contact</a>
+    </nav>
+    <div class="menu__foot">
+      <p class="nav__status"><span class="nav__pulse" aria-hidden="true"></span>Available for opportunities</p>
+      <p class="mono muted">Salé, Morocco</p>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero" aria-label="Introduction">
+      <div class="container hero__grid">
+
+        <div class="hero__left">
+          <p class="hero__eyebrow mono">Software Engineering <span>/</span> Student · Builder</p>
+
+          <h1 class="hero__title">
+            <span class="line"><span>I build.</span></span>
+            <span class="line"><span>I solve.</span></span>
+            <span class="line"><span>I adapt<span class="accent">.</span></span></span>
+          </h1>
+
+          <span class="hero__accent-line" aria-hidden="true"></span>
+
+          <p class="hero__lede">
+            Souhail Ouichou is a software engineering student at 1337,
+            with a background in operations, project management and
+            technology-driven environments.
+          </p>
+
+          <div class="hero__actions">
+            <a class="btn btn--primary magnetic" href="#journey" data-cursor="hide">
+              Explore my journey
+              <i data-lucide="arrow-down"></i>
+            </a>
+            <a class="btn btn--ghost magnetic" href="#contact" data-cursor="hide">
+              Let's connect
+              <i data-lucide="arrow-up-right"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero__right">
+          <figure class="portrait">
+            <div class="portrait__frame">
+              <img
+                class="portrait__img"
+                src="images/souhail.png"
+                onerror="this.onerror=null;this.src='https://media.licdn.com/dms/image/v2/D4E03AQF3LZdBgncVXw/profile-displayphoto-crop_800_800/B4EZ55xFwDGwAI-/0/1780159373576?e=1793232000&v=beta&t=HReaJWiPS9II_ECBcX4tzELxAVUlC7t8yv-WdLaDuYo';"
+                alt="Portrait of Souhail Ouichou"
+                width="800" height="800"
+                fetchpriority="high" decoding="async">
+              <span class="portrait__scan" aria-hidden="true"></span>
+            </div>
+
+            <figcaption class="portrait__caption mono">Souhail Ouichou <span>/ 2026</span></figcaption>
+          </figure>
+        </div>
+
+      </div>
+
+      <div class="container hero__scroll">
+        <span class="mono">Scroll to explore</span>
+        <span class="hero__arrow" aria-hidden="true"><i data-lucide="arrow-down"></i></span>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Software Engineering <em>—</em> C &amp; C++ <em>—</em> Systems Programming <em>—</em> Concurrency <em>—</em> Networking <em>—</em> DevOps <em>—</em> Problem Solving <em>—</em> Adaptability <em>—</em> </span>
+        <span>Software Engineering <em>—</em> C &amp; C++ <em>—</em> Systems Programming <em>—</em> Concurrency <em>—</em> Networking <em>—</em> DevOps <em>—</em> Problem Solving <em>—</em> Adaptability <em>—</em> </span>
+      </div>
+    </div>
+
+    <!-- PROFILE STATEMENT -->
+    <section class="statement section" aria-labelledby="statement-title">
+      <div class="container">
+        <p class="label mono" data-reveal>01 — Profile</p>
+        <h2 class="statement__title" id="statement-title" data-reveal>
+          More than a developer,<br>
+          I'm a problem solver shaped<br>
+          by very different environments.
+        </h2>
+        <p class="statement__note mono" data-reveal>
+          Grounded in <span>software</span>, <span>operations</span>,
+          <span>leadership</span> and <span>problem-solving</span>.
+        </p>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about section" id="about" aria-labelledby="about-title">
+      <div class="container split">
+        <div class="split__aside">
+          <p class="label mono" data-reveal>About me</p>
+          <h2 class="sr-only" id="about-title">About me</h2>
+        </div>
+
+        <div class="split__body">
+          <p class="about__lead" data-reveal>
+            I'm Souhail Ouichou, a software engineering student at 1337 Coding School
+            with a background that combines technology, business operations and
+            project management.
+          </p>
+          <p data-reveal>
+            Before moving deeper into software engineering, I worked in fast-paced
+            environments where communication, coordination, decision-making and
+            problem-solving were part of everyday work.
+          </p>
+          <p data-reveal>
+            These experiences shaped the way I approach technology: not just as code,
+            but as a tool for solving real problems and building things that work.
+          </p>
+          <p data-reveal>
+            I value empathy, critical thinking, adaptability and collaboration.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         SELECTED WORK / PROJECTS
+         One <article class="project"> card per project, in two groups:
+         coded-from-scratch (42 curriculum) and vibe-coded (AI-assisted).
+         Each card: number · domain label · name · description · tags · link
+         From-scratch cards link to the umbrella repo subfolder or the
+         project's own GitHub repo; vibe-coded cards link to their remotes.
+         Cards animate in via the generic [data-reveal] handler in script.js
+         ================================================================== -->
+    <section class="projects section" id="projects" aria-labelledby="projects-title">
+      <div class="container">
+        <div class="section__head">
+          <p class="label mono" data-reveal>02 — Selected Work</p>
+          <h2 class="section__title" id="projects-title" data-reveal>
+            Things I've<br>built — by hand,<br>and <span class="accent">with agents.</span>
+          </h2>
+        </div>
+
+        <div class="projects__group">
+        <p class="label mono" data-reveal>Coded from scratch — every line hand-written</p>
+        <div class="projects__grid">
+
+          <!-- 01 · minishell — see From_scratch/readmes/minishell_README.md -->
+          <article class="project" data-reveal>
+            <div class="project__top">
+              <span class="project__num mono">01</span>
+              <span class="project__domain mono">Systems / C</span>
+            </div>
+            <h3 class="project__name">minishell</h3>
+            <p class="project__desc">
+              A POSIX-compliant UNIX shell built from scratch: lexer, parser,
+              pipelines, redirections, heredocs and built-ins, with signal
+              behaviour that matches Bash.
+            </p>
+            <ul class="tags">
+              <li>C</li><li>POSIX</li><li>fork / execve</li><li>pipes</li><li>signals</li>
+            </ul>
+            <a class="project__link" href="https://github.com/On-Off-Grid/PORTFOLIO/tree/main/From_scratch/minishell" target="_blank" rel="noopener noreferrer" aria-label="View minishell on GitHub">
+              View on GitHub <i data-lucide="arrow-up-right"></i>
+            </a>
+          </article>
+
+          <!-- 02 · philosophers — see From_scratch/readmes/philosophers_README.md -->
+          <article class="project" data-reveal>
+            <div class="project__top">
+              <span class="project__num mono">02</span>
+              <span class="project__domain mono">Concurrency / C</span>
+            </div>
+            <h3 class="project__name">philosophers</h3>
+            <p class="project__desc">
+              A deadlock-free Dining Philosophers simulation in POSIX threads:
+              address-sorted lock ordering, a dedicated observer thread and
+              sub-millisecond timing.
+            </p>
+            <ul class="tags">
+              <li>C</li><li>pthreads</li><li>mutexes</li><li>synchronization</li>
+            </ul>
+            <a class="project__link" href="https://github.com/On-Off-Grid/Dining_Philosophers" target="_blank" rel="noopener noreferrer" aria-label="View philosophers on GitHub">
+              View on GitHub <i data-lucide="arrow-up-right"></i>
+            </a>
+          </article>
+
+          <!-- 03 · minitalk — see From_scratch/readmes/minitalk_README.md -->
+          <article class="project" data-reveal>
+            <div class="project__top">
+              <span class="project__num mono">03</span>
+              <span class="project__domain mono">IPC / C</span>
+            </div>
+            <h3 class="project__name">minitalk</h3>
+            <p class="project__desc">
+              Transmits strings bit by bit between processes using only UNIX
+              signals, with a custom ACK handshake that eliminates dropped
+              bits and race conditions.
+            </p>
+            <ul class="tags">
+              <li>C</li><li>SIGUSR1 / SIGUSR2</li><li>IPC</li><li>bitwise</li>
+            </ul>
+            <a class="project__link" href="https://github.com/On-Off-Grid/PORTFOLIO/tree/main/From_scratch/minitalk" target="_blank" rel="noopener noreferrer" aria-label="View minitalk on GitHub">
+              View on GitHub <i data-lucide="arrow-up-right"></i>
+            </a>
+          </article>
+
+          <!-- 04 · my_irc (ft_irc) — see From_scratch/readmes/my_irc_README.md -->
+          <article class="project" data-reveal>
+            <div class="project__top">
+              <span class="project__num mono">04</span>
+              <span class="project__domain mono">Networking / C++</span>
+            </div>
+            <h3 class="project__name">my_irc</h3>
+            <p class="project__desc">
+              A multi-client IRC server over non-blocking sockets with a
+              poll-based event loop, line buffering and the full command set:
+              channels, kick, invite and modes.
+            </p>
+            <ul class="tags">
+              <li>C++98</li><li>sockets</li><li>poll</li><li>IRC RFC</li>
+            </ul>
+            <a class="project__link" href="https://github.com/On-Off-Grid/PORTFOLIO/tree/main/From_scratch/my_irc" target="_blank" rel="noopener noreferrer" aria-label="View my_irc on GitHub">
+              View on GitHub <i data-lucide="arrow-up-right"></i>
+            </a>
+          </article>
+
+          <!-- 05 · CPPS (C++ modules 06–09) — see From_scratch/readmes/CPPS_README.md -->
+          <article class="project" data-reveal>
+            <div class="project__top">
+              <span class="project__num mono">05</span>
+              <span class="project__domain mono">OOP / C++</span>
+            </div>
+            <h3 class="project__name">CPPS</h3>
+            <p class="project__desc">
+              A four-module C++98 suite: type casting &amp; RTTI, template
+              engines, STL containers and iterators, plus a Ford-Johnson sort
+              benchmarked across container memory layouts.
+            </p>
+            <ul class="tags">
+              <li>C++98</li><li>STL</li><li>templates</li><li>algorithms</li>
+            </ul>
+            <a class="project__link" href="https://github.com/On-Off-Grid/CPPS" target="_blank" rel="noopener noreferrer" aria-label="View CPPS on GitHub">
+              View on GitHub <i data-lucide="arrow-up-right"></i>
+            </a>
+          </article>
+
+          <!-- 06 · cub3d — see From_scratch/readmes/cub3d_README.md -->
+          <article class="project" data-reveal>
+            <div class="project__top">
+              <span class="project__num mono">06</span>
+              <span class="project__domain mono">Graphics / C</span>
+            </div>
+            <h3 class="project__name">cub3d</h3>
+            <p class="project__desc">
+              A software-rendered 2.5D raycasting engine inspired by
+              Wolfenstein 3D: DDA ray projection, directional texture mapping
+              and direct frame buffering at 60+ FPS.
+            </p>
+            <ul class="tags">
+              <li>C</li><li>raycasting / DDA</li><li>MiniLibX</li><li>linear algebra</li>
+            </ul>
+            <a class="project__link" href="https://github.com/On-Off-Grid/PORTFOLIO/tree/main/From_scratch/cub3d" target="_blank" rel="noopener noreferrer" aria-label="View cub3d on GitHub">
+              View on GitHub <i data-lucide="arrow-up-right"></i>
+            </a>
+          </article>
+
+          <!-- 07 · fractol — see From_scratch/readmes/fractol_README.md -->
+          <article class="project" data-reveal>
+            <div class="project__top">
+              <span class="project__num mono">07</span>
+              <span class="project__domain mono">Graphics / C</span>
+            </div>
+            <h3 class="project__name">fractol</h3>
+            <p class="project__desc">
+              A real-time Mandelbrot, Julia and Burning Ship renderer with
+              cursor-centered zoom, panning and HSV-to-RGB palettes — escape-
+              time math computed per pixel.
+            </p>
+            <ul class="tags">
+              <li>C</li><li>complex maths</li><li>escape-time</li><li>framebuffer</li>
+            </ul>
+            <a class="project__link" href="https://github.com/On-Off-Grid/PORTFOLIO/tree/main/From_scratch/fractol" target="_blank" rel="noopener noreferrer" aria-label="View fractol on GitHub">
+              View on GitHub <i data-lucide="arrow-up-right"></i>
+            </a>
+          </article>
+
+          <!-- 08 · inception — see From_scratch/readmes/inception_README.md -->
+          <article class="project" data-reveal>
+            <div class="project__top">
+              <span class="project__num mono">08</span>
+              <span class="project__domain mono">DevOps / Docker</span>
+            </div>
+            <h3 class="project__name">inception</h3>
+            <p class="project__desc">
+              A zero-trust web stack built from minimal Debian images: Nginx
+              TLS 1.3 termination, WordPress on PHP-FPM and MariaDB behind an
+              isolated bridge network with Docker Secrets.
+            </p>
+            <ul class="tags">
+              <li>Docker Compose</li><li>Nginx</li><li>MariaDB</li><li>TLS 1.3</li>
+            </ul>
+            <a class="project__link" href="https://github.com/On-Off-Grid/inception" target="_blank" rel="noopener noreferrer" aria-label="View inception on GitHub">
+              View on GitHub <i data-lucide="arrow-up-right"></i>
+            </a>
+          </article>
+
+        </div>
+        </div>
+
+        <div class="projects__group">
+        <p class="label mono" data-reveal>Vibe coded — built with AI agents in the loop</p>
+        <p class="projects__note" data-reveal>
+          Architecture, specs and review are mine; implementation was produced
+          and iterated with LLM agents. Each lives in its own repository.
+        </p>
+        <div class="projects__grid">
+
+          <!-- 09 · IgranSense_MVP -->
+          <article class="project" data-reveal>
+            <div class="project__top">
+              <span class="project__num mono">09</span>
+              <span class="project__domain mono">Full-stack / AI</span>
+            </div>
+            <h3 class="project__name">IgranSense MVP</h3>
+            <p class="project__desc">
+              Full-stack product MVP: FastAPI backend, React/Vite frontend and
+              REST API design, deployed end to end on Vercel with docs and
+              quickstart tooling.
+            </p>
+            <ul class="tags">
+              <li>FastAPI</li><li>React</li><li>REST</li><li>Vercel</li>
+            </ul>
+            <a class="project__link" href="https://github.com/On-Off-Grid/IgranSense_MVP" target="_blank" rel="noopener noreferrer" aria-label="View IgranSense MVP on GitHub">
+              View on GitHub <i data-lucide="arrow-up-right"></i>
+            </a>
+          </article>
+
+          <!-- 10 · harness -->
+          <article class="project" data-reveal>
+            <div class="project__top">
+              <span class="project__num mono">10</span>
+              <span class="project__domain mono">Agents / Security</span>
+            </div>
+            <h3 class="project__name">Bug-Bounty Harness</h3>
+            <p class="project__desc">
+              Agent orchestration harness for bug-bounty workflows: recon
+              pipelines, MCP servers, RAG context, prompt/steering systems and
+              systemd-served gateway tooling.
+            </p>
+            <ul class="tags">
+              <li>MCP</li><li>RAG</li><li>Orchestration</li><li>Recon</li>
+            </ul>
+            <a class="project__link" href="https://github.com/On-Off-Grid/harness" target="_blank" rel="noopener noreferrer" aria-label="View bug-bounty harness on GitHub">
+              View on GitHub <i data-lucide="arrow-up-right"></i>
+            </a>
+          </article>
+
+          <!-- 11 · Ult_harness -->
+          <article class="project" data-reveal>
+            <div class="project__top">
+              <span class="project__num mono">11</span>
+              <span class="project__domain mono">Control Plane / Python</span>
+            </div>
+            <h3 class="project__name">Ult Harness</h3>
+            <p class="project__desc">
+              Specification-driven control plane for a multi-agent security
+              harness: budgeting, egress compliance, triage, model routing and
+              memory/RAG integration over FastAPI.
+            </p>
+            <ul class="tags">
+              <li>Python</li><li>FastAPI</li><li>Multi-agent</li><li>Spec-driven</li>
+            </ul>
+            <a class="project__link" href="https://github.com/On-Off-Grid/Ult_harness" target="_blank" rel="noopener noreferrer" aria-label="View Ult Harness on GitHub">
+              View on GitHub <i data-lucide="arrow-up-right"></i>
+            </a>
+          </article>
+
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE UNEXPECTED PATH -->
+    <section class="path section" id="journey" aria-labelledby="path-title">
+      <div class="container">
+        <p class="label mono" data-reveal>The unexpected path</p>
+        <h2 class="path__title" id="path-title" data-reveal>
+          A tech career<br>built from<br><span class="accent">unexpected places.</span>
+        </h2>
+
+        <ol class="path__list">
+          <li class="path__item"><span class="path__num mono">01</span><p>Construction sites taught me <span>coordination</span>.</p></li>
+          <li class="path__item"><span class="path__num mono">02</span><p>Retail taught me <span>speed</span>.</p></li>
+          <li class="path__item"><span class="path__num mono">03</span><p>Business taught me <span>responsibility</span>.</p></li>
+          <li class="path__item"><span class="path__num mono">04</span><p>1337 is teaching me how to <span>build</span>.</p></li>
+          <li class="path__item path__item--last"><span class="path__num mono">05</span><p>Together, they shaped how I think.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="experience section" id="work" aria-labelledby="exp-title">
+      <div class="container">
+        <div class="section__head">
+          <p class="label mono" data-reveal>03 — Experience</p>
+          <h2 class="section__title" id="exp-title" data-reveal>Where I've<br>learned to work.</h2>
+        </div>
+
+        <div class="timeline">
+          <span class="timeline__line" aria-hidden="true"><span class="timeline__fill" id="timelineFill"></span></span>
+
+          <article class="tl" data-reveal>
+            <span class="tl__dot" aria-hidden="true"></span>
+            <p class="tl__year mono">2021 — 2026</p>
+            <div class="tl__body">
+              <h3 class="tl__role">Construction Site Manager</h3>
+              <p class="tl__org mono">Espace Travaux du Sud</p>
+              <p class="tl__desc">
+                Directed and supervised construction projects from groundwork to
+                delivery, coordinating site teams, subcontractors, logistics, safety,
+                budgets and client relationships.
+              </p>
+              <ul class="tags">
+                <li>Leadership</li><li>Project Management</li><li>Coordination</li>
+                <li>Negotiation</li><li>Operations</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="tl" data-reveal>
+            <span class="tl__dot" aria-hidden="true"></span>
+            <p class="tl__year mono">2020 — 2021</p>
+            <div class="tl__body">
+              <h3 class="tl__role">Store Manager</h3>
+              <p class="tl__org mono">JibJib</p>
+              <p class="tl__desc">
+                Managed daily store operations in a fast-paced technology-driven
+                delivery startup, coordinating teams, inventory, logistics and
+                customer experience.
+              </p>
+              <ul class="tags">
+                <li>Operations</li><li>Team Coordination</li><li>Logistics</li>
+                <li>Organization</li><li>Customer Experience</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="tl" data-reveal>
+            <span class="tl__dot" aria-hidden="true"></span>
+            <p class="tl__year mono">2024 — Present</p>
+            <div class="tl__body">
+              <h3 class="tl__role">Software Engineering Student</h3>
+              <p class="tl__org mono">1337 Coding School</p>
+              <p class="tl__desc">
+                Currently studying computer software engineering — learning how to
+                build, think in systems and turn problems into working software.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section class="education section" aria-labelledby="edu-title">
+      <div class="container">
+        <div class="section__head">
+          <p class="label mono" data-reveal>04 — Education</p>
+          <h2 class="sr-only" id="edu-title">Education</h2>
+        </div>
+
+        <div class="edu__feature" data-reveal>
+          <span class="edu__ghost" aria-hidden="true">1337</span>
+          <div class="edu__feature-body">
+            <p class="mono muted">2024 — 2026</p>
+            <h3 class="edu__name">1337 <span>Coding School</span></h3>
+            <p class="edu__degree mono">Computer Software Engineering</p>
+          </div>
+        </div>
+
+        <div class="edu__row" data-reveal>
+          <div>
+            <p class="mono muted">2023 — 2024</p>
+            <h3 class="edu__name edu__name--sm">ALX Academy</h3>
+            <p class="edu__degree mono">Backend Development</p>
+          </div>
+          <i data-lucide="graduation-cap" class="edu__icon" aria-hidden="true"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="skills section" aria-labelledby="skills-title">
+      <div class="container">
+        <div class="skills__head">
+          <p class="label mono" data-reveal>Capabilities</p>
+          <h2 class="section__title" id="skills-title" data-reveal>What I'm<br>building</h2>
+        </div>
+
+        <!-- Technical capabilities first (what the projects demonstrate),
+             soft skills after. Renumber if you add or remove rows. -->
+        <ul class="skills__list">
+          <li><span class="mono">01</span>C Systems Programming</li>
+          <li><span class="mono">02</span>C++ &amp; Object-Oriented Design</li>
+          <li><span class="mono">03</span>Concurrency &amp; Threads</li>
+          <li><span class="mono">04</span>Networking &amp; Sockets</li>
+          <li><span class="mono">05</span>Docker &amp; DevOps</li>
+          <li><span class="mono">06</span>Computer Graphics</li>
+          <li><span class="mono">07</span>Software Engineering</li>
+          <li><span class="mono">08</span>Problem Solving</li>
+          <li><span class="mono">09</span>Project Management</li>
+          <li><span class="mono">10</span>Team Coordination</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CURRENTLY BUILDING -->
+    <section class="building section" aria-labelledby="building-title">
+      <div class="container split">
+        <div class="split__aside">
+          <p class="label mono" data-reveal>Currently building</p>
+          <h2 class="sr-only" id="building-title">Currently building</h2>
+        </div>
+        <div class="split__body">
+          <p class="about__lead" data-reveal>
+            Exploring software engineering, backend development and practical
+            technology solutions through the 1337 learning environment.
+          </p>
+          <!-- Placeholder card replaced: real projects now live in
+               #projects up the page; this card points at what's next. -->
+          <div class="building__card" data-reveal>
+            <span class="mono">More projects</span>
+            <strong>Systems, IoT &amp; security</strong>
+            <span class="building__line" aria-hidden="true"></span>
+            <p class="mono muted">Next on the 2026 roadmap — documented as they ship.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHILOSOPHY -->
+    <section class="philosophy section" aria-labelledby="phil-title">
+      <div class="container">
+        <p class="label mono" data-reveal>Personal philosophy</p>
+        <blockquote class="phil__quote" id="phil-title">
+          <span class="line"><span>Adaptability</span></span>
+          <span class="line"><span>is not a soft skill.</span></span>
+          <span class="line"><span class="accent">It's a way</span></span>
+          <span class="line"><span class="accent">of working.</span></span>
+        </blockquote>
+        <p class="phil__note" data-reveal>
+          Different environments taught me different ways of thinking.
+          Technology is where I bring them together.
+        </p>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact section" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <p class="label mono" data-reveal>05 — Contact</p>
+        <h2 class="contact__title" id="contact-title" data-reveal>
+          Let's build<br>something<br><span class="accent">useful.</span>
+        </h2>
+
+        <div class="contact__grid">
+          <p class="contact__note" data-reveal>
+            Open to meaningful collaborations,<br>
+            software engineering opportunities<br>
+            and conversations about technology.
+          </p>
+          <div class="contact__actions" data-reveal>
+            <a class="btn btn--primary magnetic" href="https://www.linkedin.com/in/souhail-ouichou/" target="_blank" rel="noopener noreferrer" data-cursor="hide">
+              Connect on LinkedIn
+              <i data-lucide="arrow-up-right"></i>
+            </a>
+            <a class="btn btn--ghost magnetic" href="https://www.linkedin.com/in/souhail-ouichou/" target="_blank" rel="noopener noreferrer" data-cursor="hide">
+              Send a message
+              <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div>
+        <p class="footer__name">Souhail Ouichou</p>
+        <p class="mono muted">Software Engineering · Problem Solving · Building</p>
+        <p class="mono muted">Salé, Morocco</p>
+      </div>
+      <div class="footer__right">
+        <a class="footer__link" href="https://www.linkedin.com/in/souhail-ouichou/" target="_blank" rel="noopener noreferrer">
+          LinkedIn <i data-lucide="arrow-up-right"></i>
+        </a>
+        <p class="mono muted">© 2026 Souhail Ouichou</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="script.js"></script>
+</body>
+</html>
