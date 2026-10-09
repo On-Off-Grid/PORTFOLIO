@@ -5,11 +5,18 @@
 *.gch
 .vscode/
 
-# ignore compiled binary execs
-cub3D
-fractol
-minishell
-client
-server
-philo
-ircserv
+# ignore compiled binary execs (full paths so the identically-named source
+# directories like From_scratch/fractol/ are not swallowed)
+From_scratch/cub3d/cub3D
+From_scratch/fractol/fractol
+From_scratch/minishell/minishell
+From_scratch/minitalk/client
+From_scratch/minitalk/server
+From_scratch/philosophers/philo
+From_scratch/my_irc/ircserv
+
+# nested standalone repos (vibe-coded projects, each has its own git remote)
+Vibe_coded/
+
+# OS junk
+.DS_Store
