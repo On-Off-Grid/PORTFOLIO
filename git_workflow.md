@@ -10,8 +10,9 @@ Your `PORTFOLIO` workspace operates as an **Umbrella Container Repository** trac
 
 ```
 PORTFOLIO/ (Main Git Repository -> git@github.com:On-Off-Grid/PORTFOLIO.git)
-├── 📄 README.md, git_workflow.md, ROADMAP_2026.md, .gitignore, .gitmodules
-├── 📂 site/                                (portfolio website, tracked here)
+├── 📄 README.md, git_workflow.md, ROADMAP_2026.md, AI_Task-Start_Cheat_Sheet.md, .gitignore, .gitmodules
+├── 📂 site/                                (portfolio website, tracked here; published with
+│   │                                       git subtree push --prefix site -> On-Off-Grid/souhail-portfolio)
 ├── 📂 From_scratch/                        (hand-written 42 projects)
 │   ├── 📂 Core Project Folders (Directly tracked in PORTFOLIO)
 │   │   ├── cub3d/
@@ -23,7 +24,7 @@ PORTFOLIO/ (Main Git Repository -> git@github.com:On-Off-Grid/PORTFOLIO.git)
 │       ├── CPPS/                          -> git@github.com:On-Off-Grid/CPPS.git
 │       ├── inception/                     -> git@github.com:On-Off-Grid/inception.git
 │       ├── minilibx-linux/                -> git@github.com:42Paris/minilibx-linux.git
-│       ├── my_irc/                        -> git@github.com:abareich/ft_irc.git
+│       ├── my_irc/                        -> git@github.com:On-Off-Grid/shared_irc.git
 │       ├── Patterns-in-code-and-culture/  -> git@github.com:On-Off-Grid/Patterns-in-code-and-culture.git
 │       └── philosophers/                  -> git@github.com:On-Off-Grid/Dining_Philosophers.git
 └── 🤖 Vibe_coded/                          (AI-assisted projects — each a STANDALONE repo,
@@ -86,6 +87,59 @@ git commit -m "chore: update CPPS submodule reference to latest commit"
 git push origin main
 ```
 
+### The Post-Change Sync Ritual (run after EVERY submodule change)
+
+Any edit under a submodule directory — code, docs, tests, even a quick fix —
+leaves the umbrella pointing at a commit that GitHub does not know about until
+you complete **all four steps**. Run them in this order, every time:
+
+```bash
+# ── 0. Pre-check: be on a branch, never a detached HEAD ─────────────────────
+cd /home/souhail/Desktop/Desktop/PORTFOLIO/From_scratch/<submodule>
+git status -sb                    # must show "## main...origin/main", not "HEAD detached"
+git checkout main                 # if detached: git checkout main
+
+# ── 1. Inside the submodule: commit AND push first ──────────────────────────
+git add -A
+git commit -m "feat(<submodule>): describe the change"
+git push origin main              # push must succeed BEFORE step 2
+
+# ── 2. Umbrella: advance the commit pointer ─────────────────────────────────
+cd /home/souhail/Desktop/Desktop/PORTFOLIO
+git status                        # expect: modified: From_scratch/<submodule> (new commits)
+git add From_scratch/<submodule>
+git commit -m "chore: bump <submodule> pointer to <short-sha>"
+git push origin main
+
+# ── 3. Verify everything is in sync ─────────────────────────────────────────
+git submodule status              # leading space = clean; "+"/"-" = out of sync
+git status --short                # expect: clean
+```
+
+**Order matters.** If you commit the umbrella pointer (step 2) before the
+submodule push (step 1) succeeds, every fresh clone — including GitHub's —
+records a commit that does not exist on the submodule remote, and
+`git clone --recurse-submodules` breaks for everyone, yourself included.
+
+**Step 4 — republish the site when the change is site-facing:**
+
+If the submodule change affects anything the portfolio links to or quotes
+(project card links, evidence lines, readmes, live content), re-run the site
+publish ritual:
+
+```bash
+# Link audit first (every external URL must return 200)
+# then publish:
+cd /home/souhail/Desktop/Desktop/PORTFOLIO
+git subtree push --prefix site git@github.com:On-Off-Grid/souhail-portfolio.git main
+# Verify: https://on-off-grid.github.io/souhail-portfolio/ serves the change
+```
+
+**`Vibe_coded/` is different:** those repos (`IgranSense_MVP`, `harness`,
+`Ult_harness`) are **git-ignored standalones, not submodules** — there is no
+pointer to advance. You only `git push` inside the repo itself (plus the site
+republish above if the site references it).
+
 ---
 
 ## 3. Resolving Common Submodule Issues & Friction
@@ -118,15 +172,19 @@ git checkout main
 
 ---
 
-### Issue C: Permission Denied on Third-Party Submodules (`my_irc` or `minilibx-linux`)
-**Symptom**: You commit changes locally inside `my_irc` or `minilibx-linux`, but `git push` fails with:
+### Issue C: Permission Denied on Third-Party Submodules (`minilibx-linux`)
+**Symptom**: You commit changes locally inside `minilibx-linux`, but `git push` fails with:
 `ERROR: Permission to <owner>/<repo>.git denied to On-Off-Grid.`
 
-**Why this happens**: The submodule remote URL points to someone else's GitHub account (e.g., `abareich/ft_irc.git` or `42Paris/minilibx-linux.git`).
+**Why this happens**: The submodule remote URL points to someone else's GitHub account (e.g., `42Paris/minilibx-linux.git`).
+
+> **Note**: `my_irc` used to live here (it pointed at `abareich/ft_irc.git`).
+> It was migrated to your own repository `On-Off-Grid/shared_irc` in October 2026 —
+> see **Issue E** below for the recipe. `minilibx-linux` is now the only third-party submodule.
 
 **Solution Options**:
-- **Option 1 (Recommended)**: Fork the repository to your own GitHub account (`On-Off-Grid/ft_irc.git`), then update `.gitmodules` and run `git submodule sync`.
-- **Option 2**: If you only need to store changes in your `PORTFOLIO` umbrella, you can commit the submodule pointer locally in `PORTFOLIO` without pushing to the third-party remote.
+- **Option 1 (Recommended)**: Fork the repository to your own GitHub account, then update `.gitmodules` (or re-point the submodule, see Issue E) and run `git submodule sync`.
+- **Option 2**: If you only need to store changes in your `PORTFOLIO` umbrella, you can commit the submodule pointer locally in `PORTFOLIO` without pushing to the third-party remote. **Caveat**: local-only commits are fragile — back them up first (Issue E, step 0).
 
 ---
 
@@ -151,6 +209,48 @@ git push origin main
 
 ---
 
+### Issue E: Re-pointing a Submodule to a Different Remote (worked example: `my_irc` → `shared_irc`)
+
+**Symptom**: A submodule's remote is wrong, dead, or belongs to someone else, and
+the history in your working copy does not exist anywhere else (e.g. it was never
+pushed because you had no rights). A plain URL edit in `.gitmodules` is **not**
+enough — a divergent local history would be silently discarded.
+
+**The safe migration recipe:**
+
+```bash
+# ── 0. BACK UP local-only history first ─────────────────────────────────────
+#    (push the local HEAD to your own repo under a backup branch — or make a
+#     `git bundle` if you have no suitable remote)
+cd From_scratch/my_irc
+git push git@github.com:On-Off-Grid/shared_irc.git HEAD:refs/heads/backup/umbrella-my_irc-<sha>
+git ls-remote git@github.com:On-Off-Grid/shared_irc.git "refs/heads/backup/*"   # confirm
+
+# ── 1. Remove the old submodule (unregister + delete working tree) ──────────
+cd /home/souhail/Desktop/Desktop/PORTFOLIO
+git submodule deinit -f From_scratch/my_irc
+git rm -f From_scratch/my_irc
+rm -rf .git/modules/my_irc            # clear the migrated gitdir leftover
+
+# ── 2. Re-add from the new remote (same path keeps every reference valid) ───
+git submodule add git@github.com:On-Off-Grid/shared_irc.git From_scratch/my_irc
+cd From_scratch/my_irc && git status -sb   # must show "## main" on the NEW remote
+
+# ── 3. Sweep + verify ───────────────────────────────────────────────────────
+grep -ri "abareich" .gitmodules site/   # expect: no hits (only this doc cites it historically)
+grep -rn "shared_irc" site/index.html   # card must point at the new repo
+git submodule status                    # clean pointer, no +/-/U
+```
+
+**October 2026 migration record**: `From_scratch/my_irc` was re-homed from
+`git@github.com:abareich/ft_irc.git` (third-party, local commit `0ca146f` unpushable)
+to the original repo `git@github.com:On-Off-Grid/shared_irc.git`. The local snapshot
+was preserved as branch `backup/umbrella-my_irc-0ca146f` on `shared_irc`.
+The portfolio's my_irc card was re-pointed to the new repo and the site was
+republished (sync ritual, step 4).
+
+---
+
 ## 4. Quick Reference Cheat Sheet
 
 | Task | Command |
@@ -161,3 +261,7 @@ git push origin main
 | **Update all submodules to latest remote HEAD** | `git submodule update --remote --merge` |
 | **Un-stick detached HEAD in a submodule** | `cd <submodule> && git checkout main` |
 | **Stage updated submodule pointer in root** | `cd PORTFOLIO && git add <submodule_name>` |
+| **After ANY submodule change (full sync ritual)** | ① `cd <submodule> && git push origin main` → ② `cd PORTFOLIO && git add <submodule> && git commit -m "chore: bump <submodule> pointer" && git push` → ③ `git submodule status` (clean) |
+| **Republish the site after site-facing changes** | `git subtree push --prefix site git@github.com:On-Off-Grid/souhail-portfolio.git main` |
+| **Back up a submodule's local-only history** | `cd <submodule> && git push <own-repo-url> HEAD:refs/heads/backup/<name>-$(git rev-parse --short HEAD)` |
+| **Re-point a submodule to a new remote** | See **Issue E**: backup → `git submodule deinit -f <path>` → `git rm -f <path>` → `git submodule add <new-url> <path>` |
