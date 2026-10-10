@@ -975,6 +975,14 @@ section { scroll-margin-top: calc(var(--nav-h) + 10px); }
   margin-block: 1.5rem;
 }
 
+.building__card a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(200, 255, 50, 0.4);
+}
+.building__card a:hover { text-decoration-color: var(--accent); }
+
 /* 09. PHILOSOPHY / CONTACT / FOOTER --------------------------------------- */
 .philosophy {
   background:
