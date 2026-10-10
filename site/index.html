@@ -4,6 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <script>
+    /* Theme: apply saved choice (or system preference) before first paint.
+       A ?theme=light|dark URL param overrides for previewing either mode. */
+    (function () {
+      var theme = null;
+      try { theme = new URLSearchParams(location.search).get("theme"); } catch (e) {}
+      try { theme = theme || localStorage.getItem("theme"); } catch (e) {}
+      if (theme !== "light" && theme !== "dark") {
+        theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+
   <title>Souhail Ouichou — Software Engineering Student</title>
   <meta name="description" content="Portfolio of Souhail Ouichou, a software engineering student at 1337 Coding School. C/C++ systems work: a POSIX shell, concurrent simulations, an IRC server, raycasting engines and a Dockerized web stack.">
 
@@ -64,6 +78,10 @@
         <a href="#work"><span>04</span>Experience</a>
         <a href="#contact"><span>05</span>Contact</a>
       </nav>
+
+      <button class="nav__theme" id="themeToggle" type="button" aria-label="Switch to light theme" title="Toggle light / dark">
+        <i data-lucide="sun"></i><i data-lucide="moon"></i>
+      </button>
 
       <button class="nav__toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
         <span></span><span></span>

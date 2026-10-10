@@ -3,6 +3,7 @@
    ========================================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
+  initThemeToggle();
   initNavigation();
   initAnimations();
   initCursor();
@@ -14,6 +15,46 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* THEME (light / dark) -----------------------------------------------------
+   The initial data-theme is applied pre-paint by an inline script in <head>
+   to avoid a flash. This wires the toggle button + system-preference sync. */
+function initThemeToggle() {
+  const root = document.documentElement;
+  const btn = document.getElementById("themeToggle");
+  const meta = document.querySelector('meta[name="theme-color"]');
+  const sysLight = window.matchMedia("(prefers-color-scheme: light)");
+
+  const themeColor = () => (root.dataset.theme === "light" ? "#F4F4F0" : "#080808");
+
+  const paint = (theme) => {
+    root.dataset.theme = theme;
+    if (btn) {
+      const toLight = theme !== "light"; /* label = theme the click will switch TO */
+      btn.setAttribute("aria-label", toLight ? "Switch to light theme" : "Switch to dark theme");
+    }
+    if (meta) meta.setAttribute("content", themeColor());
+  };
+
+  paint(root.dataset.theme || (sysLight.matches ? "light" : "dark"));
+
+  if (btn) {
+    btn.addEventListener("click", () => {
+      const next = root.dataset.theme === "light" ? "dark" : "light";
+      try { localStorage.setItem("theme", next); } catch (e) { /* private mode */ }
+      paint(next);
+    });
+  }
+
+  /* Follow the OS only while the visitor hasn't chosen explicitly */
+  const sync = (e) => {
+    let saved = null;
+    try { saved = localStorage.getItem("theme"); } catch (err) { /* noop */ }
+    if (!saved) paint(e.matches ? "light" : "dark");
+  };
+  if (sysLight.addEventListener) sysLight.addEventListener("change", sync);
+  else if (sysLight.addListener) sysLight.addListener(sync);
+}
 
 /* NAVIGATION -------------------------------------------------------------- */
 function initNavigation() {
