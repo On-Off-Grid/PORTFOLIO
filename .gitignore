@@ -16,7 +16,9 @@ From_scratch/philosophers/philo
 From_scratch/my_irc/ircserv
 
 # nested standalone repos (vibe-coded projects, each has its own git remote)
-Vibe_coded/
+# only the showcase README is tracked in the umbrella
+Vibe_coded/*
+!Vibe_coded/README.md
 
 # OS junk
 .DS_Store

@@ -118,7 +118,8 @@ These projects were built **with AI code generation in the loop** — specs,
 architecture, and review are mine, code was produced and iterated with LLM
 agents. They are kept separate from the hand-written work above so the
 distinction is honest and visible. Each is a standalone repository (nested
-under `Vibe_coded/`, which this umbrella repo git-ignores):
+under [`Vibe_coded/`](Vibe_coded/README.md) — a folder this umbrella repo git-ignores
+apart from its [showcase README](Vibe_coded/README.md):
 
 | Project | Key Concepts & Technologies | Highlights |
 | :--- | :--- | :--- |
