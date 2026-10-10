@@ -165,6 +165,10 @@ function initCursor() {
   const finePointer = window.matchMedia("(pointer: fine)").matches;
   if (!finePointer) return;
 
+  /* Reduced motion: keep the native cursor, no follower ring (CSS leaves
+     .cursor at display:none when this returns early) */
+  if (prefersReducedMotion) return;
+
   cursor.style.display = "grid";
 
   let mouseX = window.innerWidth / 2;
