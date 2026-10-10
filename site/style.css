@@ -166,6 +166,7 @@ section { scroll-margin-top: calc(var(--nav-h) + 10px); }
   align-items: center;
   gap: 0.7em;
   color: var(--muted);
+  font-size: clamp(0.72rem, 0.82vw, 0.82rem); /* slightly larger than .mono default */
   margin-bottom: clamp(2rem, 5vw, 3.5rem);
 }
 
@@ -179,7 +180,7 @@ section { scroll-margin-top: calc(var(--nav-h) + 10px); }
 .section__head { margin-bottom: clamp(3rem, 7vw, 5.5rem); }
 
 .section__title {
-  font-size: clamp(2.4rem, 6vw, 5rem);
+  font-size: clamp(2rem, 4.8vw, 4rem);
   font-weight: 700;
   line-height: 0.98;
   letter-spacing: -0.035em;
