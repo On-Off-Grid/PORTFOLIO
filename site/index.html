@@ -16,6 +16,19 @@
         theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
       }
       document.documentElement.dataset.theme = theme;
+
+      /* Language: resolve EN/FR ( ?lang= -> localStorage -> browser -> en )
+         and set lang + data-lang before first paint; i18n.js swaps the
+         strings at end of body, before GSAP initializes. */
+      var lang = null;
+      try { lang = new URLSearchParams(location.search).get("lang"); } catch (e) { }
+      try { lang = lang || localStorage.getItem("lang"); } catch (e) { }
+      if (lang !== "fr" && lang !== "en") {
+        var first = navigator.languages && navigator.languages.length ? navigator.languages[0] : navigator.language;
+        lang = (first || "en").toLowerCase().indexOf("fr") === 0 ? "fr" : "en";
+      }
+      document.documentElement.lang = lang;
+      document.documentElement.dataset.lang = lang;
     })();
   </script>
 
@@ -69,31 +82,34 @@
 
 <body id="top">
 
-  <a class="skip-link" href="#main-content">Skip to content</a>
+  <a class="skip-link" href="#main-content" data-i18n="skip">Skip to content</a>
 
   <div class="progress" aria-hidden="true"><span class="progress__bar" id="progressBar"></span></div>
 
-  <div class="cursor" id="cursor" aria-hidden="true"><span class="cursor__label">VIEW</span></div>
+  <div class="cursor" id="cursor" aria-hidden="true"><span class="cursor__label" data-i18n="cursor.view">VIEW</span></div>
 
   <!-- NAVIGATION -->
   <header class="nav" id="nav">
     <div class="nav__inner">
-      <a class="nav__logo" href="#top" aria-label="Souhail Ouichou — home">SOUHAIL<span>.</span></a>
+      <a class="nav__logo" href="#top" aria-label="Souhail Ouichou — home" data-i18n-aria="logo.aria">SOUHAIL<span>.</span></a>
 
-      <p class="nav__status"><span class="nav__pulse" aria-hidden="true"></span>Available for opportunities</p>
+      <p class="nav__status" data-i18n-html="nav.status"><span class="nav__pulse" aria-hidden="true"></span>Available for opportunities</p>
 
-      <nav class="nav__links" aria-label="Primary">
-        <a href="#projects"><span>01</span>Work</a>
-        <a href="#about"><span>02</span>About</a>
-        <a href="#journey"><span>03</span>Path</a>
-        <a href="#work"><span>04</span>Experience</a>
-        <a href="#contact"><span>05</span>Contact</a>
+      <nav class="nav__links" aria-label="Primary" data-i18n-aria="nav.primary">
+        <a href="#projects" data-i18n-html="nav.work"><span>01</span>Work</a>
+        <a href="#about" data-i18n-html="nav.about"><span>02</span>About</a>
+        <a href="#journey" data-i18n-html="nav.path"><span>03</span>Path</a>
+        <a href="#work" data-i18n-html="nav.exp"><span>04</span>Experience</a>
+        <a href="#contact" data-i18n-html="nav.contact"><span>05</span>Contact</a>
       </nav>
 
       <button class="nav__theme" id="themeToggle" type="button" aria-label="Switch to light theme"
-        title="Toggle light / dark">
+        title="Toggle light / dark" data-i18n-title="theme.title">
         <i data-lucide="sun"></i><i data-lucide="moon"></i>
       </button>
+
+      <button class="nav__lang mono" id="langToggle" type="button" aria-label="Switch to French"
+        title="Switch to French">FR</button>
 
       <button class="nav__toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="mobileMenu"
         aria-label="Open menu">
@@ -106,20 +122,20 @@
   <div class="menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menu">
     <div class="menu__top">
       <span class="nav__logo">SOUHAIL<span>.</span></span>
-      <button class="menu__close" id="menuClose" type="button" aria-label="Close menu">
+      <button class="menu__close" id="menuClose" type="button" aria-label="Close menu" data-i18n-aria="menu.close">
         <i data-lucide="x"></i>
       </button>
     </div>
-    <nav class="menu__links" aria-label="Mobile">
-      <a href="#projects"><span>01</span>Work</a>
-      <a href="#about"><span>02</span>About</a>
-      <a href="#journey"><span>03</span>Path</a>
-      <a href="#work"><span>04</span>Experience</a>
-      <a href="#contact"><span>05</span>Contact</a>
+    <nav class="menu__links" aria-label="Mobile" data-i18n-aria="nav.mobile">
+      <a href="#projects" data-i18n-html="nav.work"><span>01</span>Work</a>
+      <a href="#about" data-i18n-html="nav.about"><span>02</span>About</a>
+      <a href="#journey" data-i18n-html="nav.path"><span>03</span>Path</a>
+      <a href="#work" data-i18n-html="nav.exp"><span>04</span>Experience</a>
+      <a href="#contact" data-i18n-html="nav.contact"><span>05</span>Contact</a>
     </nav>
     <div class="menu__foot">
-      <p class="nav__status"><span class="nav__pulse" aria-hidden="true"></span>Available for opportunities</p>
-      <p class="mono muted">Salé, Morocco</p>
+      <p class="nav__status" data-i18n-html="nav.status"><span class="nav__pulse" aria-hidden="true"></span>Available for opportunities</p>
+      <p class="mono muted" data-i18n="footer.location">Salé, Morocco</p>
     </div>
   </div>
 
@@ -130,18 +146,18 @@
       <div class="container hero__grid">
 
         <div class="hero__left">
-          <p class="hero__eyebrow mono">C &amp; C++ <span>·</span> Systems <span>·</span> Networks <span>·</span> Agents</p>
+          <p class="hero__eyebrow mono" data-i18n-html="hero.eyebrow">C &amp; C++ <span>·</span> Systems <span>·</span> Networks <span>·</span> Agents</p>
 
           <h1 class="hero__title">
-            <span class="line"><span>Learning</span></span>
-            <span class="line"><span>systems</span></span>
-            <span class="line"><span>from the</span></span>
-            <span class="line"><span>bottom up<span class="accent">.</span></span></span>
+            <span class="line"><span data-i18n="hero.l1">Learning</span></span>
+            <span class="line"><span data-i18n="hero.l2">systems</span></span>
+            <span class="line"><span data-i18n="hero.l3">from the</span></span>
+            <span class="line"><span data-i18n-html="hero.l4">bottom up<span class="accent">.</span></span></span>
           </h1>
 
           <span class="hero__accent-line" aria-hidden="true"></span>
 
-          <p class="hero__lede">
+          <p class="hero__lede" data-i18n="hero.lede">
             I'm Souhail, a Morocco-based software builder. I learned the
             foundations through C, C++, Linux, processes, sockets and
             containers; now I'm extending that base into embedded systems,
@@ -152,11 +168,11 @@
 
           <div class="hero__actions">
             <a class="btn btn--primary magnetic" href="#projects" data-cursor="hide">
-              View my work
+              <span data-i18n="hero.cta">View my work</span>
               <i data-lucide="arrow-down"></i>
             </a>
             <a class="btn btn--ghost magnetic" href="https://github.com/On-Off-Grid" target="_blank"
-              rel="noopener noreferrer" data-cursor="hide" aria-label="View Souhail Ouichou's GitHub profile">
+              rel="noopener noreferrer" data-cursor="hide" aria-label="View Souhail Ouichou's GitHub profile" data-i18n-aria="github.aria">
               GitHub
               <i data-lucide="arrow-up-right"></i>
             </a>
@@ -168,7 +184,7 @@
             <div class="portrait__frame">
               <img class="portrait__img" src="images/souhail.png"
                 onerror="this.onerror=null;this.src='https://media.licdn.com/dms/image/v2/D4E03AQF3LZdBgncVXw/profile-displayphoto-crop_800_800/B4EZ55xFwDGwAI-/0/1780159373576?e=1793232000&v=beta&t=HReaJWiPS9II_ECBcX4tzELxAVUlC7t8yv-WdLaDuYo';"
-                alt="Portrait of Souhail Ouichou wearing a cap and glasses" width="800" height="800" fetchpriority="high"
+                alt="Portrait of Souhail Ouichou wearing a cap and glasses" data-i18n-alt="portrait.alt" width="800" height="800" fetchpriority="high"
                 decoding="async">
               <span class="portrait__scan" aria-hidden="true"></span>
             </div>
@@ -180,7 +196,7 @@
       </div>
 
       <div class="container hero__scroll">
-        <span class="mono">Scroll to explore</span>
+        <span class="mono" data-i18n="hero.scroll">Scroll to explore</span>
         <span class="hero__arrow" aria-hidden="true"><i data-lucide="arrow-down"></i></span>
       </div>
     </section>
@@ -188,9 +204,9 @@
     <!-- MARQUEE -->
     <div class="marquee" aria-hidden="true">
       <div class="marquee__track">
-        <span>C <em>·</em> C++ <em>·</em> Linux <em>·</em> Processes <em>·</em> Threads <em>·</em> Networking
+        <span data-i18n-html="marquee.words">C <em>·</em> C++ <em>·</em> Linux <em>·</em> Processes <em>·</em> Threads <em>·</em> Networking
           <em>·</em> Embedded Systems <em>·</em> Security Tooling <em>·</em> LLM Agents <em>·</em> IoT <em>·</em> </span>
-        <span>C <em>·</em> C++ <em>·</em> Linux <em>·</em> Processes <em>·</em> Threads <em>·</em> Networking
+        <span data-i18n-html="marquee.words">C <em>·</em> C++ <em>·</em> Linux <em>·</em> Processes <em>·</em> Threads <em>·</em> Networking
           <em>·</em> Embedded Systems <em>·</em> Security Tooling <em>·</em> LLM Agents <em>·</em> IoT <em>·</em> </span>
       </div>
     </div>
@@ -198,14 +214,14 @@
     <!-- PROFILE STATEMENT -->
     <section class="statement section" aria-labelledby="statement-title">
       <div class="container">
-        <p class="label mono" data-reveal>01 — Profile</p>
-        <h2 class="statement__title" id="statement-title" data-reveal>
+        <p class="label mono" data-reveal data-i18n="statement.label">01 — Profile</p>
+        <h2 class="statement__title" id="statement-title" data-reveal data-i18n-html="statement.title">
           I came to software through<br>
           construction sites, store<br>
           operations and unfinished paths—<br>
           not a straight career ladder.
         </h2>
-        <p class="statement__note mono" data-reveal>
+        <p class="statement__note mono" data-reveal data-i18n-html="statement.note">
           Those environments taught me to <span>coordinate people</span>,
           <span>inspect failures</span> and <span>adapt under pressure</span>.
         </p>
@@ -216,29 +232,29 @@
     <section class="about section" id="about" aria-labelledby="about-title">
       <div class="container split">
         <div class="split__aside">
-          <p class="label mono" data-reveal>About me</p>
-          <h2 class="sr-only" id="about-title">About me</h2>
+          <p class="label mono" data-reveal data-i18n="about.label">About me</p>
+          <h2 class="sr-only" id="about-title" data-i18n="about.label">About me</h2>
         </div>
 
         <div class="split__body">
-          <p class="about__lead" data-reveal>
+          <p class="about__lead" data-reveal data-i18n="about.lead">
             I'm Souhail Ouichou, based in Morocco. Before software, I worked
             in construction and retail operations, where plans met delays,
             limited resources and real people.
           </p>
-          <p data-reveal>
+          <p data-reveal data-i18n="about.p2">
             That background still shapes how I build: inspect the system,
             find the constraint, communicate clearly, and make the next
             useful thing work. My technical base is modest but real: C, C++,
             Linux, processes, threads, sockets and Docker.
           </p>
-          <p data-reveal>
+          <p data-reveal data-i18n="about.p3">
             More recently, I've been exploring LLM agents, orchestration and
             security automation — sometimes writing the implementation
             myself, sometimes directing agents through specifications,
             tests and review.
           </p>
-          <p data-reveal>
+          <p data-reveal data-i18n="about.p4">
             I left 1337 without completing the cursus. The experience still
             gave me difficult projects and a stronger preference for honest
             work over borrowed appearances. I'm now consolidating those
@@ -263,19 +279,19 @@
     <section class="projects section" id="projects" aria-labelledby="projects-title">
       <div class="container">
         <div class="section__head">
-          <p class="label mono" data-reveal>02 — Selected Work</p>
-          <h2 class="section__title" id="projects-title" data-reveal>
+          <p class="label mono" data-reveal data-i18n="projects.label">02 — Selected Work</p>
+          <h2 class="section__title" id="projects-title" data-reveal data-i18n-html="projects.title">
             Things I've<br>built — by hand,<br>and <span class="accent">with agents.</span>
           </h2>
         </div>
 
         <div class="projects__group">
-          <h3 class="label mono" data-reveal>Built by hand</h3>
-          <p class="projects__note" data-reveal>
+          <h3 class="label mono" data-reveal data-i18n="projects.byHand">Built by hand</h3>
+          <p class="projects__note" data-reveal data-i18n="projects.byHandNote">
             Curriculum and personal projects where I wrote and debugged the
             implementation directly.
           </p>
-          <p class="projects__context" data-reveal>
+          <p class="projects__context" data-reveal data-i18n="projects.byHandContext">
             Most of these were implemented during the 42/1337 curriculum
             under C99, C++98 and restricted-library constraints.
           </p>
@@ -286,17 +302,17 @@
               <div class="project__top">
                 <span class="project__badge">
                   <span class="project__num mono">01</span>
-                  <span class="project__featured mono">Featured</span>
+                  <span class="project__featured mono" data-i18n="card.featured">Featured</span>
                 </span>
-                <span class="project__domain mono">Systems / C</span>
+                <span class="project__domain mono" data-i18n="dom.systems">Systems / C</span>
               </div>
               <h4 class="project__name">minishell</h4>
-              <p class="project__desc">
+              <p class="project__desc" data-i18n="card.desc.minishell">
                 A POSIX-style command interpreter written in C, with
                 tokenization, expansion, pipelines, redirections, heredocs,
                 built-ins and interactive signal handling modeled on Bash.
               </p>
-              <p class="project__evidence"><span>Owned:</span> lexer, expansion,
+              <p class="project__evidence" data-i18n-html="card.ev.minishell"><span>Owned:</span> lexer, expansion,
                 process execution and signal-state handling.</p>
               <ul class="tags">
                 <li>C</li>
@@ -306,8 +322,8 @@
                 <li>signals</li>
               </ul>
               <a class="project__link" href="https://github.com/On-Off-Grid/PORTFOLIO/tree/main/From_scratch/minishell"
-                target="_blank" rel="noopener noreferrer" aria-label="View minishell on GitHub">
-                View on GitHub <i data-lucide="arrow-up-right"></i>
+                target="_blank" rel="noopener noreferrer" aria-label="View minishell on GitHub" data-i18n-aria="aria.minishell">
+                <span data-i18n="card.viewGithub">View on GitHub</span> <i data-lucide="arrow-up-right"></i>
               </a>
             </article>
 
@@ -315,10 +331,10 @@
             <article class="project" data-reveal>
               <div class="project__top">
                 <span class="project__num mono">02</span>
-                <span class="project__domain mono">Concurrency / C</span>
+                <span class="project__domain mono" data-i18n="dom.concurrency">Concurrency / C</span>
               </div>
               <h4 class="project__name">philosophers</h4>
-              <p class="project__desc">
+              <p class="project__desc" data-i18n="card.desc.philosophers">
                 A Dining Philosophers simulation using POSIX threads,
                 ordered mutex acquisition and a dedicated observer for
                 timing and termination.
@@ -330,8 +346,8 @@
                 <li>synchronization</li>
               </ul>
               <a class="project__link" href="https://github.com/On-Off-Grid/Dining_Philosophers" target="_blank"
-                rel="noopener noreferrer" aria-label="View philosophers on GitHub">
-                View on GitHub <i data-lucide="arrow-up-right"></i>
+                rel="noopener noreferrer" aria-label="View philosophers on GitHub" data-i18n-aria="aria.philosophers">
+                <span data-i18n="card.viewGithub">View on GitHub</span> <i data-lucide="arrow-up-right"></i>
               </a>
             </article>
 
@@ -342,7 +358,7 @@
                 <span class="project__domain mono">IPC / C</span>
               </div>
               <h4 class="project__name">minitalk</h4>
-              <p class="project__desc">
+              <p class="project__desc" data-i18n="card.desc.minitalk">
                 An inter-process communication program that sends strings bit
                 by bit through UNIX signals, using acknowledgements to
                 coordinate delivery.
@@ -354,8 +370,8 @@
                 <li>bitwise</li>
               </ul>
               <a class="project__link" href="https://github.com/On-Off-Grid/PORTFOLIO/tree/main/From_scratch/minitalk"
-                target="_blank" rel="noopener noreferrer" aria-label="View minitalk on GitHub">
-                View on GitHub <i data-lucide="arrow-up-right"></i>
+                target="_blank" rel="noopener noreferrer" aria-label="View minitalk on GitHub" data-i18n-aria="aria.minitalk">
+                <span data-i18n="card.viewGithub">View on GitHub</span> <i data-lucide="arrow-up-right"></i>
               </a>
             </article>
 
@@ -365,17 +381,17 @@
               <div class="project__top">
                 <span class="project__badge">
                   <span class="project__num mono">04</span>
-                  <span class="project__featured mono">Featured</span>
+                  <span class="project__featured mono" data-i18n="card.featured">Featured</span>
                 </span>
-                <span class="project__domain mono">Networking / C++</span>
+                <span class="project__domain mono" data-i18n="dom.networking">Networking / C++</span>
               </div>
               <h4 class="project__name">my_irc</h4>
-              <p class="project__desc">
+              <p class="project__desc" data-i18n="card.desc.myirc">
                 A multi-client IRC server written in C++98 around
                 non-blocking sockets and poll(), with client buffering,
                 command dispatch and channel management.
               </p>
-              <p class="project__evidence"><span>Hard part:</span> handling partial
+              <p class="project__evidence" data-i18n-html="card.ev.myirc"><span>Hard part:</span> handling partial
                 TCP reads without treating recv() as a message boundary.</p>
               <ul class="tags">
                 <li>C++98</li>
@@ -384,8 +400,8 @@
                 <li>IRC RFC</li>
               </ul>
               <a class="project__link" href="https://github.com/On-Off-Grid/shared_irc"
-                target="_blank" rel="noopener noreferrer" aria-label="View my_irc on GitHub">
-                View on GitHub <i data-lucide="arrow-up-right"></i>
+                target="_blank" rel="noopener noreferrer" aria-label="View my_irc on GitHub" data-i18n-aria="aria.myirc">
+                <span data-i18n="card.viewGithub">View on GitHub</span> <i data-lucide="arrow-up-right"></i>
               </a>
             </article>
 
@@ -393,10 +409,10 @@
             <article class="project" data-reveal>
               <div class="project__top">
                 <span class="project__num mono">05</span>
-                <span class="project__domain mono">OOP / C++</span>
+                <span class="project__domain mono" data-i18n="dom.oop">OOP / C++</span>
               </div>
               <h4 class="project__name">CPPS</h4>
-              <p class="project__desc">
+              <p class="project__desc" data-i18n="card.desc.cpps">
                 A C++98 exercise suite covering casts and RTTI, templates,
                 STL containers and iterators, plus Ford–Johnson
                 merge-insertion sorting experiments.
@@ -408,8 +424,8 @@
                 <li>algorithms</li>
               </ul>
               <a class="project__link" href="https://github.com/On-Off-Grid/CPPS" target="_blank"
-                rel="noopener noreferrer" aria-label="View CPPS on GitHub">
-                View on GitHub <i data-lucide="arrow-up-right"></i>
+                rel="noopener noreferrer" aria-label="View CPPS on GitHub" data-i18n-aria="aria.cpps">
+                <span data-i18n="card.viewGithub">View on GitHub</span> <i data-lucide="arrow-up-right"></i>
               </a>
             </article>
 
@@ -417,10 +433,10 @@
             <article class="project" data-reveal>
               <div class="project__top">
                 <span class="project__num mono">06</span>
-                <span class="project__domain mono">Graphics / C</span>
+                <span class="project__domain mono" data-i18n="dom.graphics">Graphics / C</span>
               </div>
               <h4 class="project__name">cub3d</h4>
-              <p class="project__desc">
+              <p class="project__desc" data-i18n="card.desc.cub3d">
                 A software-rendered 2.5D raycaster written in C, using DDA
                 projection, directional texture mapping, map validation and
                 direct framebuffer rendering.
@@ -432,8 +448,8 @@
                 <li>linear algebra</li>
               </ul>
               <a class="project__link" href="https://github.com/On-Off-Grid/PORTFOLIO/tree/main/From_scratch/cub3d"
-                target="_blank" rel="noopener noreferrer" aria-label="View cub3d on GitHub">
-                View on GitHub <i data-lucide="arrow-up-right"></i>
+                target="_blank" rel="noopener noreferrer" aria-label="View cub3d on GitHub" data-i18n-aria="aria.cub3d">
+                <span data-i18n="card.viewGithub">View on GitHub</span> <i data-lucide="arrow-up-right"></i>
               </a>
             </article>
 
@@ -441,10 +457,10 @@
             <article class="project" data-reveal>
               <div class="project__top">
                 <span class="project__num mono">07</span>
-                <span class="project__domain mono">Graphics / C</span>
+                <span class="project__domain mono" data-i18n="dom.graphics">Graphics / C</span>
               </div>
               <h4 class="project__name">fractol</h4>
-              <p class="project__desc">
+              <p class="project__desc" data-i18n="card.desc.fractol">
                 A real-time Mandelbrot, Julia and Burning Ship explorer with
                 cursor-centered zoom, panning and per-pixel escape-time
                 rendering.
@@ -456,8 +472,8 @@
                 <li>framebuffer</li>
               </ul>
               <a class="project__link" href="https://github.com/On-Off-Grid/PORTFOLIO/tree/main/From_scratch/fractol"
-                target="_blank" rel="noopener noreferrer" aria-label="View fractol on GitHub">
-                View on GitHub <i data-lucide="arrow-up-right"></i>
+                target="_blank" rel="noopener noreferrer" aria-label="View fractol on GitHub" data-i18n-aria="aria.fractol">
+                <span data-i18n="card.viewGithub">View on GitHub</span> <i data-lucide="arrow-up-right"></i>
               </a>
             </article>
 
@@ -466,17 +482,17 @@
               <div class="project__top">
                 <span class="project__badge">
                   <span class="project__num mono">08</span>
-                  <span class="project__featured mono">Featured</span>
+                  <span class="project__featured mono" data-i18n="card.featured">Featured</span>
                 </span>
                 <span class="project__domain mono">DevOps / Docker</span>
               </div>
               <h4 class="project__name">inception</h4>
-              <p class="project__desc">
+              <p class="project__desc" data-i18n="card.desc.inception">
                 An isolated Docker Compose stack built from Debian-based
                 images, with Nginx TLS termination, WordPress/PHP-FPM,
                 MariaDB, private service networking and file-mounted secrets.
               </p>
-              <p class="project__evidence"><span>Built:</span> three Debian
+              <p class="project__evidence" data-i18n-html="card.ev.inception"><span>Built:</span> three Debian
                 images, TLS termination and file-mounted secrets wired
                 through Compose.</p>
               <ul class="tags">
@@ -486,8 +502,8 @@
                 <li>TLS 1.3</li>
               </ul>
               <a class="project__link" href="https://github.com/On-Off-Grid/inception" target="_blank"
-                rel="noopener noreferrer" aria-label="View inception on GitHub">
-                View on GitHub <i data-lucide="arrow-up-right"></i>
+                rel="noopener noreferrer" aria-label="View inception on GitHub" data-i18n-aria="aria.inception">
+                <span data-i18n="card.viewGithub">View on GitHub</span> <i data-lucide="arrow-up-right"></i>
               </a>
             </article>
 
@@ -495,8 +511,8 @@
         </div>
 
         <div class="projects__group">
-          <h3 class="label mono" data-reveal>Built with agents</h3>
-          <p class="projects__note" data-reveal>
+          <h3 class="label mono" data-reveal data-i18n="projects.withAgents">Built with agents</h3>
+          <p class="projects__note" data-reveal data-i18n="projects.withAgentsNote">
             I owned the problem framing, architecture, specifications,
             review and iteration; LLM agents produced substantial
             implementation work. Repository notes explain the division of
@@ -509,17 +525,17 @@
               <div class="project__top">
                 <span class="project__badge">
                   <span class="project__num mono">09</span>
-                  <span class="project__featured mono">Featured</span>
+                  <span class="project__featured mono" data-i18n="card.featured">Featured</span>
                 </span>
-                <span class="project__domain mono">Full-stack / AI</span>
+                <span class="project__domain mono" data-i18n="dom.fullstack">Full-stack / AI</span>
               </div>
               <h4 class="project__name">IgranSense MVP</h4>
-              <p class="project__desc">
+              <p class="project__desc" data-i18n="card.desc.gransense">
                 Full-stack product MVP: FastAPI backend, React/Vite frontend and
                 REST API design, deployed end to end on Vercel with docs and
                 quickstart tooling.
               </p>
-              <p class="project__evidence"><span>Owned:</span> the FastAPI
+              <p class="project__evidence" data-i18n-html="card.ev.gransense"><span>Owned:</span> the FastAPI
                 edge-simulator backend — server, REST endpoints and data files.</p>
               <ul class="tags">
                 <li>FastAPI</li>
@@ -528,8 +544,8 @@
                 <li>Vercel</li>
               </ul>
               <a class="project__link" href="https://github.com/On-Off-Grid/IgranSense_MVP" target="_blank"
-                rel="noopener noreferrer" aria-label="View IgranSense MVP on GitHub">
-                View on GitHub <i data-lucide="arrow-up-right"></i>
+                rel="noopener noreferrer" aria-label="View IgranSense MVP on GitHub" data-i18n-aria="aria.gransense">
+                <span data-i18n="card.viewGithub">View on GitHub</span> <i data-lucide="arrow-up-right"></i>
               </a>
             </article>
 
@@ -537,10 +553,10 @@
             <article class="project" data-reveal>
               <div class="project__top">
                 <span class="project__num mono">10</span>
-                <span class="project__domain mono">Agents / Security</span>
+                <span class="project__domain mono" data-i18n="dom.agents">Agents / Security</span>
               </div>
               <h4 class="project__name">Bug-Bounty Harness</h4>
-              <p class="project__desc">
+              <p class="project__desc" data-i18n="card.desc.harness">
                 Agent orchestration harness for bug-bounty workflows: recon
                 pipelines, MCP servers, RAG context, prompt/steering systems and
                 systemd-served gateway tooling.
@@ -552,8 +568,8 @@
                 <li>Recon</li>
               </ul>
               <a class="project__link" href="https://github.com/On-Off-Grid/harness" target="_blank"
-                rel="noopener noreferrer" aria-label="View bug-bounty harness on GitHub">
-                View on GitHub <i data-lucide="arrow-up-right"></i>
+                rel="noopener noreferrer" aria-label="View bug-bounty harness on GitHub" data-i18n-aria="aria.harness">
+                <span data-i18n="card.viewGithub">View on GitHub</span> <i data-lucide="arrow-up-right"></i>
               </a>
             </article>
 
@@ -561,10 +577,10 @@
             <article class="project" data-reveal>
               <div class="project__top">
                 <span class="project__num mono">11</span>
-                <span class="project__domain mono">Control Plane / Python</span>
+                <span class="project__domain mono" data-i18n="dom.control">Control Plane / Python</span>
               </div>
               <h4 class="project__name">Ult Harness</h4>
-              <p class="project__desc">
+              <p class="project__desc" data-i18n="card.desc.ult">
                 Specification-driven control plane for a multi-agent security
                 harness: budgeting, egress compliance, triage, model routing and
                 memory/RAG integration over FastAPI.
@@ -576,8 +592,8 @@
                 <li>Spec-driven</li>
               </ul>
               <a class="project__link" href="https://github.com/On-Off-Grid/Ult_harness" target="_blank"
-                rel="noopener noreferrer" aria-label="View Ult Harness on GitHub">
-                View on GitHub <i data-lucide="arrow-up-right"></i>
+                rel="noopener noreferrer" aria-label="View Ult Harness on GitHub" data-i18n-aria="aria.ult">
+                <span data-i18n="card.viewGithub">View on GitHub</span> <i data-lucide="arrow-up-right"></i>
               </a>
             </article>
 
@@ -589,26 +605,26 @@
     <!-- THE UNEXPECTED PATH -->
     <section class="path section" id="journey" aria-labelledby="path-title">
       <div class="container">
-        <p class="label mono" data-reveal>The unexpected path</p>
-        <h2 class="path__title" id="path-title" data-reveal>
+        <p class="label mono" data-reveal data-i18n="path.label">The unexpected path</p>
+        <h2 class="path__title" id="path-title" data-reveal data-i18n-html="path.title">
           A technical path<br>built through<br><span class="accent">detours.</span>
         </h2>
 
         <ol class="path__list">
           <li class="path__item"><span class="path__num mono">01</span>
-            <p>Construction taught me <span>that plans meet reality</span>.</p>
+            <p data-i18n-html="path.1">Construction taught me <span>that plans meet reality</span>.</p>
           </li>
           <li class="path__item"><span class="path__num mono">02</span>
-            <p>Retail taught me <span>to decide while things move</span>.</p>
+            <p data-i18n-html="path.2">Retail taught me <span>to decide while things move</span>.</p>
           </li>
           <li class="path__item"><span class="path__num mono">03</span>
-            <p>1337 forced me close to <span>processes, memory and networks</span>.</p>
+            <p data-i18n-html="path.3">1337 forced me close to <span>processes, memory and networks</span>.</p>
           </li>
           <li class="path__item"><span class="path__num mono">04</span>
-            <p>Leaving it forced me to <span>choose my own direction</span>.</p>
+            <p data-i18n-html="path.4">Leaving it forced me to <span>choose my own direction</span>.</p>
           </li>
           <li class="path__item path__item--last"><span class="path__num mono">05</span>
-            <p>Now I'm consolidating the foundation and building in public.</p>
+            <p data-i18n-html="path.5">Now I'm consolidating the foundation and building in public.</p>
           </li>
         </ol>
       </div>
@@ -618,8 +634,8 @@
     <section class="experience section" id="work" aria-labelledby="exp-title">
       <div class="container">
         <div class="section__head">
-          <p class="label mono" data-reveal>03 — Experience</p>
-          <h2 class="section__title" id="exp-title" data-reveal>
+          <p class="label mono" data-reveal data-i18n="exp.label">03 — Experience</p>
+          <h2 class="section__title" id="exp-title" data-reveal data-i18n-html="exp.title">
             Work before software<br>still shapes <span class="accent">how I build.</span>
           </h2>
         </div>
@@ -631,19 +647,19 @@
             <span class="tl__dot" aria-hidden="true"></span>
             <p class="tl__year mono">2021 — 2026</p>
             <div class="tl__body">
-              <h3 class="tl__role">Construction Site Manager</h3>
+              <h3 class="tl__role" data-i18n="exp.role.1">Construction Site Manager</h3>
               <p class="tl__org mono">Espace Travaux du Sud</p>
-              <p class="tl__desc">
+              <p class="tl__desc" data-i18n="exp.desc.1">
                 Supervised construction projects from groundwork to delivery,
                 coordinating site teams, subcontractors, logistics, safety,
                 budgets and client relationships.
               </p>
               <ul class="tags">
                 <li>Leadership</li>
-                <li>Project Management</li>
+                <li data-i18n="exp.tag.pm">Project Management</li>
                 <li>Coordination</li>
-                <li>Negotiation</li>
-                <li>Operations</li>
+                <li data-i18n="exp.tag.negotiation">Negotiation</li>
+                <li data-i18n="exp.tag.operations">Operations</li>
               </ul>
             </div>
           </article>
@@ -652,19 +668,19 @@
             <span class="tl__dot" aria-hidden="true"></span>
             <p class="tl__year mono">2020 — 2021</p>
             <div class="tl__body">
-              <h3 class="tl__role">Store Manager</h3>
+              <h3 class="tl__role" data-i18n="exp.role.2">Store Manager</h3>
               <p class="tl__org mono">JibJib</p>
-              <p class="tl__desc">
+              <p class="tl__desc" data-i18n="exp.desc.2">
                 Managed daily store operations at a delivery startup,
                 coordinating teams, inventory, logistics and customer
                 experience.
               </p>
               <ul class="tags">
-                <li>Operations</li>
-                <li>Team Coordination</li>
-                <li>Logistics</li>
-                <li>Organization</li>
-                <li>Customer Experience</li>
+                <li data-i18n="exp.tag.operations">Operations</li>
+                <li data-i18n="exp.tag.team">Team Coordination</li>
+                <li data-i18n="exp.tag.logistics">Logistics</li>
+                <li data-i18n="exp.tag.organization">Organization</li>
+                <li data-i18n="exp.tag.custexp">Customer Experience</li>
               </ul>
             </div>
           </article>
@@ -673,9 +689,9 @@
             <span class="tl__dot" aria-hidden="true"></span>
             <p class="tl__year mono">2024 — 2026</p>
             <div class="tl__body">
-              <h3 class="tl__role">Software Engineering Curriculum</h3>
+              <h3 class="tl__role" data-i18n="exp.role.3">Software Engineering Curriculum</h3>
               <p class="tl__org mono">1337 Coding School</p>
-              <p class="tl__desc">
+              <p class="tl__desc" data-i18n="exp.desc.3">
                 Worked through low-level C and C++ projects covering
                 processes, threads, networking, graphics and container
                 infrastructure before leaving the cursus without completing it.
@@ -690,8 +706,8 @@
     <section class="education section" aria-labelledby="edu-title">
       <div class="container">
         <div class="section__head">
-          <p class="label mono" data-reveal>04 — Education</p>
-          <h2 class="sr-only" id="edu-title">Education</h2>
+          <p class="label mono" data-reveal data-i18n="edu.label">04 — Education</p>
+          <h2 class="sr-only" id="edu-title" data-i18n="edu.sr">Education</h2>
         </div>
 
         <div class="edu__feature" data-reveal>
@@ -699,8 +715,8 @@
           <div class="edu__feature-body">
             <p class="mono muted">2024 — 2026</p>
             <h3 class="edu__name">1337 <span>Coding School</span></h3>
-            <p class="edu__degree mono">Software engineering curriculum — not completed</p>
-            <p class="edu__note">
+            <p class="edu__degree mono" data-i18n="edu.degree">Software engineering curriculum — not completed</p>
+            <p class="edu__note" data-i18n="edu.note">
               Coursework and projects in C, C++98, UNIX processes,
               concurrency, networking, graphics and container infrastructure.
             </p>
@@ -711,7 +727,7 @@
           <div>
             <p class="mono muted">2023 — 2024</p>
             <h3 class="edu__name edu__name--sm">ALX Academy</h3>
-            <p class="edu__degree mono">Backend development coursework</p>
+            <p class="edu__degree mono" data-i18n="edu.alxDegree">Backend development coursework</p>
           </div>
           <i data-lucide="graduation-cap" class="edu__icon" aria-hidden="true"></i>
         </div>
@@ -722,8 +738,8 @@
     <section class="skills section" aria-labelledby="skills-title">
       <div class="container">
         <div class="skills__head">
-          <p class="label mono" data-reveal>Capabilities</p>
-          <h2 class="section__title" id="skills-title" data-reveal>Tools I can<br>work with</h2>
+          <p class="label mono" data-reveal data-i18n="skills.label">Capabilities</p>
+          <h2 class="section__title" id="skills-title" data-reveal data-i18n-html="skills.title">Tools I can<br>work with</h2>
         </div>
 
         <!-- Three confidence tiers, not one flat claim of mastery.
@@ -732,18 +748,18 @@
         <ul class="skills__list">
           <li>
             <span class="mono">01</span>
-            <span class="skills__cat">Foundations</span>
-            <span class="skills__items">C · C++98 · Linux · processes · file descriptors · sockets · pthreads</span>
+            <span class="skills__cat" data-i18n="skills.cat1">Foundations</span>
+            <span class="skills__items" data-i18n="skills.items1">C · C++98 · Linux · processes · file descriptors · sockets · pthreads</span>
           </li>
           <li>
             <span class="mono">02</span>
-            <span class="skills__cat">Working knowledge</span>
+            <span class="skills__cat" data-i18n="skills.cat2">Working knowledge</span>
             <span class="skills__items">Docker Compose · Nginx · Python · FastAPI · Git · Bash</span>
           </li>
           <li>
             <span class="mono">03</span>
-            <span class="skills__cat">Exploring now</span>
-            <span class="skills__items">Modern C++ · embedded Linux · MQTT/IoT · security automation · LLM agents</span>
+            <span class="skills__cat" data-i18n="skills.cat3">Exploring now</span>
+            <span class="skills__items" data-i18n="skills.items3">Modern C++ · embedded Linux · MQTT/IoT · security automation · LLM agents</span>
           </li>
         </ul>
       </div>
@@ -753,19 +769,19 @@
     <section class="building section" aria-labelledby="building-title">
       <div class="container split">
         <div class="split__aside">
-          <p class="label mono" data-reveal>Current direction</p>
-          <h2 class="sr-only" id="building-title">Current direction</h2>
+          <p class="label mono" data-reveal data-i18n="building.label">Current direction</p>
+          <h2 class="sr-only" id="building-title" data-i18n="building.label">Current direction</h2>
         </div>
         <div class="split__body">
-          <p class="about__lead" data-reveal>
+          <p class="about__lead" data-reveal data-i18n="building.lead">
             Rebuilding depth after a broad two-year sprint: modern C++,
             Linux networking, embedded/IoT foundations and security
             automation.
           </p>
           <div class="building__card" data-reveal>
-            <strong>Active experiments</strong>
+            <strong data-i18n="building.strong">Active experiments</strong>
             <span class="building__line" aria-hidden="true"></span>
-            <p class="muted">
+            <p class="muted" data-i18n-html="building.card">
               Maintaining an
               <a href="https://github.com/On-Off-Grid/harness" target="_blank" rel="noopener noreferrer">agent-assisted bug-bounty harness</a>
               and a
@@ -774,7 +790,7 @@
               not claims of autonomous security expertise.
             </p>
           </div>
-          <p class="building__extra" data-reveal>
+          <p class="building__extra" data-reveal data-i18n-html="building.extra">
             I'm also revisiting
             <a href="https://github.com/On-Off-Grid/IgranSense_MVP" target="_blank" rel="noopener noreferrer">IgranSense</a>
             as a practical bridge between software, sensors and agriculture.
@@ -786,15 +802,15 @@
     <!-- PHILOSOPHY -->
     <section class="philosophy section" aria-labelledby="phil-title">
       <div class="container">
-        <p class="label mono" data-reveal>Personal philosophy</p>
+        <p class="label mono" data-reveal data-i18n="phil.label">Personal philosophy</p>
         <blockquote class="phil__quote" id="phil-title">
-          <span class="line"><span>I would rather</span></span>
-          <span class="line"><span>show unfinished</span></span>
-          <span class="line"><span>understanding than</span></span>
-          <span class="line"><span class="accent">borrow the appearance</span></span>
-          <span class="line"><span class="accent">of expertise.</span></span>
+          <span class="line"><span data-i18n="phil.q1">I would rather</span></span>
+          <span class="line"><span data-i18n="phil.q2">show unfinished</span></span>
+          <span class="line"><span data-i18n="phil.q3">understanding than</span></span>
+          <span class="line"><span class="accent" data-i18n="phil.q4">borrow the appearance</span></span>
+          <span class="line"><span class="accent" data-i18n="phil.q5">of expertise.</span></span>
         </blockquote>
-        <p class="phil__note" data-reveal>
+        <p class="phil__note" data-reveal data-i18n="phil.note">
           My work crosses low-level code, operations and AI-assisted systems.
           The common thread is not mastery; it is learning how the layers
           connect and being explicit about what I did, what an agent did,
@@ -807,12 +823,12 @@
     <section class="contact section" id="contact" aria-labelledby="contact-title">
       <div class="container">
         <p class="label mono" data-reveal>05 — Contact</p>
-        <h2 class="contact__title" id="contact-title" data-reveal>
+        <h2 class="contact__title" id="contact-title" data-reveal data-i18n-html="contact.title">
           If the work<br>is relevant,<br><span class="accent">write.</span>
         </h2>
 
         <div class="contact__grid">
-          <p class="contact__note" data-reveal>
+          <p class="contact__note" data-reveal data-i18n="contact.note">
             I'm open to internships and collaborations around systems,
             networking, embedded/IoT, developer tooling and security
             automation. No ceremony needed — mention what you are building
@@ -820,8 +836,8 @@
           </p>
           <div class="contact__actions" data-reveal>
             <a class="btn btn--primary magnetic" href="https://github.com/On-Off-Grid" target="_blank"
-              rel="noopener noreferrer" data-cursor="hide" aria-label="View Souhail Ouichou's GitHub profile">
-              View GitHub
+              rel="noopener noreferrer" data-cursor="hide" aria-label="View Souhail Ouichou's GitHub profile" data-i18n-aria="github.aria">
+              <span data-i18n="contact.cta">View GitHub</span>
               <i data-lucide="arrow-up-right"></i>
             </a>
           </div>
@@ -836,7 +852,7 @@
     <div class="container footer__grid">
       <div>
         <p class="footer__name">Souhail Ouichou</p>
-        <p class="mono muted">Systems learner · Software builder · Salé, Morocco</p>
+        <p class="mono muted" data-i18n="footer.tagline">Systems learner · Software builder · Salé, Morocco</p>
       </div>
       <div class="footer__right">
         <a class="footer__link" href="https://github.com/On-Off-Grid" target="_blank"
@@ -848,7 +864,7 @@
           LinkedIn <i data-lucide="arrow-up-right"></i>
         </a>
         <!-- Blog URL placeholder: replace href="" with the real address once deployed -->
-        <a class="footer__link" href="" title="Blog — coming soon" aria-label="Blog (coming soon)">
+        <a class="footer__link" href="" title="Blog — coming soon" aria-label="Blog (coming soon)" data-i18n-title="blog.title" data-i18n-aria="blog.aria">
           Blog <i data-lucide="arrow-up-right"></i>
         </a>
         <p class="mono muted">© 2026 Souhail Ouichou</p>
@@ -859,6 +875,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="i18n.js"></script>
   <script src="script.js"></script>
 </body>
 

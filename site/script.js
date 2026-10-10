@@ -16,6 +16,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+/* UI strings for stateful labels (theme toggle, menu toggle). They live in
+   the i18n.js dictionary; the EN literals are the fallback if that file is
+   missing. i18n.js fires "i18n:applied" on every language switch so these
+   labels follow along. */
+const UI_FALLBACK = {
+  "theme.toLight": "Switch to light theme",
+  "theme.toDark": "Switch to dark theme",
+  "menu.open": "Open menu",
+  "menu.close": "Close menu"
+};
+const uiText = (key) => (window.i18n && window.i18n.t(key)) || UI_FALLBACK[key] || key;
+
 /* THEME (light / dark) -----------------------------------------------------
    The initial data-theme is applied pre-paint by an inline script in <head>
    to avoid a flash. This wires the toggle button + system-preference sync. */
@@ -31,12 +43,17 @@ function initThemeToggle() {
     root.dataset.theme = theme;
     if (btn) {
       const toLight = theme !== "light"; /* label = theme the click will switch TO */
-      btn.setAttribute("aria-label", toLight ? "Switch to light theme" : "Switch to dark theme");
+      btn.setAttribute("aria-label", uiText(toLight ? "theme.toLight" : "theme.toDark"));
     }
     if (meta) meta.setAttribute("content", themeColor());
   };
 
   paint(root.dataset.theme || (sysLight.matches ? "light" : "dark"));
+
+  /* Re-label after a language switch (i18n.js) */
+  document.addEventListener("i18n:applied", () => {
+    if (btn) btn.setAttribute("aria-label", uiText(root.dataset.theme !== "light" ? "theme.toLight" : "theme.toDark"));
+  });
 
   if (btn) {
     btn.addEventListener("click", () => {
@@ -99,7 +116,7 @@ function initMobileMenu() {
     menu.classList.toggle("is-open", open);
     document.body.classList.toggle("menu-open", open);
     toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    toggle.setAttribute("aria-label", uiText(open ? "menu.close" : "menu.open"));
     menu.inert = !open;
     if (open) {
       const first = menu.querySelector("a, button");
@@ -110,6 +127,11 @@ function initMobileMenu() {
   };
 
   menu.inert = true;
+
+  /* Follow the active language (i18n.js) */
+  document.addEventListener("i18n:applied", () => {
+    toggle.setAttribute("aria-label", uiText(menu.classList.contains("is-open") ? "menu.close" : "menu.open"));
+  });
 
   toggle.addEventListener("click", () => setOpen(!menu.classList.contains("is-open")));
   if (close) close.addEventListener("click", () => setOpen(false));

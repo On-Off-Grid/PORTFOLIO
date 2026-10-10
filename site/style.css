@@ -321,8 +321,10 @@ section { scroll-margin-top: calc(var(--nav-h) + 10px); }
   transition: border-color 0.3s ease, background 0.3s ease;
 }
 
-/* Theme toggle (light/dark) — sits beside the menu button, same affordance */
-.nav__theme {
+/* Theme toggle (light/dark) + language toggle (EN/FR) — same affordance,
+   same row; the language button shows the language it switches TO */
+.nav__theme,
+.nav__lang {
   display: grid;
   place-items: center;
   width: 42px; height: 42px;
@@ -332,7 +334,15 @@ section { scroll-margin-top: calc(var(--nav-h) + 10px); }
   transition: border-color 0.3s ease, color 0.3s ease;
 }
 
-.nav__theme:hover { border-color: var(--accent); color: var(--accent); }
+.nav__lang {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  padding-bottom: 1px; /* optical text centering inside the circle */
+}
+
+.nav__theme:hover,
+.nav__lang:hover { border-color: var(--accent); color: var(--accent); }
 .nav__theme svg { width: 16px; height: 16px; }
 .nav__theme .lucide-sun { display: none; }                    /* dark active → offer sun */
 html[data-theme="light"] .nav__theme .lucide-sun { display: block; }
